@@ -52,6 +52,21 @@ const animate = () => {
     particle.update();
     particle.draw();
 
+    particles.forEach((otherParticle) => {
+      const dx = particle.x - otherParticle.x;
+      const dy = particle.y - otherParticle.y;
+      const distance = Math.sqrt(dx * dx + dy * dy);
+
+      if (distance < 50) {
+        ctx.beginPath();
+        ctx.strokeStyle = particle.color;
+        ctx.lineWidth = 0.2;
+        ctx.moveTo(particle.x, particle.y);
+        ctx.lineTo(otherParticle.x, otherParticle.y);
+        ctx.stroke();
+      }
+    });
+
     if (particle.radius <= 0.2) {
       const index = particles.indexOf(particle);
       particles.splice(index, 1);
@@ -67,7 +82,7 @@ canvas.addEventListener("mousemove", (event) => {
   mouse.x = event.offsetX;
   mouse.y = event.offsetY;
 
-  for (let i = 0; i < 50; i++) {
+  for (let i = 0; i < 2; i++) {
     particles.push(new Particle());
   }
 });
